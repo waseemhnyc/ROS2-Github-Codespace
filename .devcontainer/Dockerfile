@@ -1,16 +1,17 @@
-FROM ros:iron-desktop
+FROM ros:humble-perception
 
-# Install ROS simulation tools and noVNC environment
+# Install essential GUI packages, Gazebo, and Turtlesim
 RUN apt-get update && apt-get install -y \
-    ros-iron-turtlesim \
-    ros-iron-gazebo-ros-pkgs \
+    ros-humble-turtlesim \
+    ros-humble-gazebo-ros-pkgs \
+    ros-humble-rviz2 \
     xvfb fluxbox novnc websockify x11vnc \
     && rm -rf /var/lib/apt/lists/*
 
-# Install noVNC
+# Install noVNC for browser-based GUI
 RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC
 
-# Create start-vnc.sh script directly in Dockerfile
+# Create startup script directly
 RUN echo '#!/bin/bash\n\
 export DISPLAY=:0\n\
 Xvfb :0 -screen 0 1280x800x24 &\n\

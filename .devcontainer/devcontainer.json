@@ -1,5 +1,5 @@
 {
-    "name": "ROS 2 Iron Environment",
+    "name": "ROS 2 Humble Environment",
     "build": {
         "dockerfile": "./Dockerfile",
         "context": "./"
