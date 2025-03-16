@@ -14,5 +14,8 @@
             ]
         }
     },
-    "overrideCommand": false
+    "overrideCommand": false,
+    "postCreateCommand": "/usr/local/bin/check-vnc.sh",
+    "postStartCommand": "/usr/local/bin/check-vnc.sh",
+    "postAttachCommand": "echo 'VNC service available at http://localhost:6080/'"
 }
