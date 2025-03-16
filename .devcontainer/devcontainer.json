@@ -1,7 +1,8 @@
 {
     "name": "ROS 2 Iron Environment",
     "build": {
-        "dockerfile": "Dockerfile"
+        "dockerfile": "./Dockerfile",
+        "context": "./"
     },
     "forwardPorts": [6080],
     "customizations": {
