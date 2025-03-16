@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y \
     ros-humble-turtlesim \
     ros-humble-gazebo-ros-pkgs \
     ros-humble-rviz2 \
+    ros-humble-turtlebot3-gazebo \
     xvfb fluxbox novnc websockify x11vnc \
     && rm -rf /var/lib/apt/lists/*
 
@@ -25,5 +26,5 @@ bash' > /usr/local/bin/start-vnc.sh \
 
 # Ensure DISPLAY is always set correctly
 RUN echo "export DISPLAY=:0" >> ~/.bashrc
-
-ENTRYPOINT ["/usr/local/bin/start-vnc.sh"]
+RUN echo "export TURTLEBOT3_MODEL=burger " >> ~/.bashrc
+RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
