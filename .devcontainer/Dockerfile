@@ -1,15 +1,11 @@
 FROM ros:iron-desktop
 
-# Install essential tools and simulation packages
+# Install ROS simulation tools and noVNC environment
 RUN apt-get update && apt-get install -y \
     ros-iron-turtlesim \
     ros-iron-gazebo-ros-pkgs \
-    xvfb \
-    novnc \
-    websockify \
-    fluxbox \
-    x11vnc \
- && rm -rf /var/lib/apt/lists/*
+    xvfb fluxbox novnc websockify x11vnc \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install noVNC
 RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC
