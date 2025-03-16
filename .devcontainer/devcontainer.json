@@ -13,5 +13,7 @@
                 "ms-azuretools.vscode-docker"
             ]
         }
-    }
+    },
+    "postCreateCommand": "nohup /usr/local/bin/start-vnc.sh > ~/vnc.log 2>&1 &",
+    "postStartCommand": "pgrep -f \"start-vnc.sh\" || nohup /usr/local/bin/start-vnc.sh > ~/vnc.log 2>&1 &"
 }

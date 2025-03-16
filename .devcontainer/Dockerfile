@@ -25,5 +25,3 @@ bash' > /usr/local/bin/start-vnc.sh \
 
 # Ensure DISPLAY is always set correctly
 RUN echo "export DISPLAY=:0" >> ~/.bashrc
-
-ENTRYPOINT ["/usr/local/bin/start-vnc.sh"]
