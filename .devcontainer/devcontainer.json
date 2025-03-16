@@ -14,6 +14,10 @@
             ]
         }
     },
-    "postCreateCommand": "nohup /usr/local/bin/start-vnc.sh > ~/vnc.log 2>&1 &",
-    "postStartCommand": "pgrep -f \"start-vnc.sh\" || nohup /usr/local/bin/start-vnc.sh > ~/vnc.log 2>&1 &"
+    "initializeCommand": "echo 'Preparing to build container...'",
+    "onCreateCommand": "echo 'Container created, setting up...'",
+    "updateContentCommand": "echo 'Content updated...'",
+    "postCreateCommand": "./.devcontainer/startup.sh",
+    "postStartCommand": "pgrep -f Xvfb || ./.devcontainer/startup.sh",
+    "postAttachCommand": "echo 'VNC service should be running at http://localhost:6080/'"
 }
