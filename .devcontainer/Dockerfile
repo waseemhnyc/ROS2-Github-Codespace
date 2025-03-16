@@ -12,34 +12,18 @@ RUN apt-get update && apt-get install -y \
 RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC
 
 # Startup script to launch graphical environment
-COPY ensure-vnc.sh /usr/local/bin/ensure-vnc.sh
-RUN chmod +x /usr/local/bin/ensure-vnc.sh
-
-# Create a script for GitHub Codespaces to run at startup
 RUN echo '#!/bin/bash\n\
-\n\
-# Start VNC service in the background\n\
-nohup /usr/local/bin/ensure-vnc.sh > /tmp/vnc-nohup.log 2>&1 &\n\
-\n\
-# Export display for GUI applications\n\
 export DISPLAY=:0\n\
-\n\
-# Execute the passed command\n\
-exec "$@"' > /usr/local/bin/entrypoint.sh \
-&& chmod +x /usr/local/bin/entrypoint.sh
+Xvfb :0 -screen 0 1280x800x24 &\n\
+sleep 2\n\
+fluxbox &\n\
+x11vnc -display :0 -forever -nopw -shared -rfbport 5900 &\n\
+/opt/noVNC/utils/novnc_proxy --vnc localhost:5900 --listen 6080 &\n\
+sleep 3\n\
+bash' > /usr/local/bin/start-vnc.sh \
+&& chmod +x /usr/local/bin/start-vnc.sh
 
 # Ensure DISPLAY is always set correctly
-RUN echo "export DISPLAY=:0" >> /etc/bash.bashrc
+RUN echo "export DISPLAY=:0" >> ~/.bashrc
 
-# Create a startup script for post-creation environment
-RUN echo '#!/bin/bash\n\
-# Check if VNC is running, restart if needed\n\
-if ! pgrep -f Xvfb > /dev/null; then\n\
-  echo "VNC not running, starting it..."\n\
-  /usr/local/bin/ensure-vnc.sh\n\
-fi\n\
-echo "VNC should be available at http://localhost:6080/"' > /usr/local/bin/check-vnc.sh \
-&& chmod +x /usr/local/bin/check-vnc.sh
-
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["bash"]
+ENTRYPOINT ["/usr/local/bin/start-vnc.sh"]
