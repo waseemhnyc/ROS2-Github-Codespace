@@ -5,6 +5,9 @@
         "context": "./"
     },
     "forwardPorts": [6080],
+    "postCreateCommand": {
+        "background": "/bin/bash -c 'export DISPLAY=:0 && Xvfb :0 -screen 0 1280x800x24 && sleep 2 && fluxbox && x11vnc -display :0 -forever -nopw -shared -rfbport 5900 && /opt/noVNC/utils/novnc_proxy --vnc localhost:5900 --listen 6080'"
+    },
     "customizations": {
         "vscode": {
             "extensions": [
