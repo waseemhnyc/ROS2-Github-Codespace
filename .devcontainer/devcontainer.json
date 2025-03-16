@@ -14,10 +14,5 @@
             ]
         }
     },
-    "initializeCommand": "echo 'Preparing to build container...'",
-    "onCreateCommand": "echo 'Container created, setting up...'",
-    "updateContentCommand": "echo 'Content updated...'",
-    "postCreateCommand": "./.devcontainer/startup.sh",
-    "postStartCommand": "pgrep -f Xvfb || ./.devcontainer/startup.sh",
-    "postAttachCommand": "echo 'VNC service should be running at http://localhost:6080/'"
+    "overrideCommand": false
 }

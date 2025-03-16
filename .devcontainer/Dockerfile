@@ -11,17 +11,27 @@ RUN apt-get update && apt-get install -y \
 # Install noVNC
 RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC
 
+# Create a directory for startup scripts
+RUN mkdir -p /etc/container/startup.d
+
 # Startup script to launch graphical environment
+COPY ensure-vnc.sh /usr/local/bin/ensure-vnc.sh
+RUN chmod +x /usr/local/bin/ensure-vnc.sh
+
+# Create a script to be run at container startup
 RUN echo '#!/bin/bash\n\
+# Start VNC service\n\
+/usr/local/bin/ensure-vnc.sh &\n\
+\n\
+# Export display for GUI applications\n\
 export DISPLAY=:0\n\
-Xvfb :0 -screen 0 1280x800x24 &\n\
-sleep 2\n\
-fluxbox &\n\
-x11vnc -display :0 -forever -nopw -shared -rfbport 5900 &\n\
-/opt/noVNC/utils/novnc_proxy --vnc localhost:5900 --listen 6080 &\n\
-sleep 3\n\
-bash' > /usr/local/bin/start-vnc.sh \
-&& chmod +x /usr/local/bin/start-vnc.sh
+\n\
+# Execute the container entrypoint\n\
+exec "$@"' > /usr/local/bin/docker-entrypoint.sh \
+&& chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Ensure DISPLAY is always set correctly
-RUN echo "export DISPLAY=:0" >> ~/.bashrc
+RUN echo "export DISPLAY=:0" >> /etc/bash.bashrc
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+CMD ["bash"]
