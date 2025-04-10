@@ -69,7 +69,7 @@ If you encounter any issues with the codespace:
 
 Contributions to improve this development environment are welcome! Please submit pull requests or open issues to suggest enhancements.
 
-
+## START HERE
 In one terminal:
 you want to run the following command:
 ```
