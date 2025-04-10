@@ -89,3 +89,5 @@ In another terminal run:
 `ros2 run turtlesim turtlesim_node`
 
 
+`ros2 topic pub /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.0}, angular: {z: 1.8}}"`
+
