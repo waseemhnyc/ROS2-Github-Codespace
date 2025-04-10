@@ -68,3 +68,24 @@ If you encounter any issues with the codespace:
 ## Contributing
 
 Contributions to improve this development environment are welcome! Please submit pull requests or open issues to suggest enhancements.
+
+
+In one terminal:
+you want to run the following command:
+```
+/usr/local/bin/start-vnc.sh
+```
+
+Then you want to go to ports - find the port that is pointed to port 6080. Look for the little earth icon and select it to open the URL.
+
+When you are on that URL in your browser - select `vnc.html`
+
+Select `Connect`.
+
+Then you can go back to your code space.
+
+In another terminal run:
+
+`ros2 run turtlesim turtlesim_node`
+
+
