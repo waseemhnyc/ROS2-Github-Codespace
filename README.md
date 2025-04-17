@@ -91,3 +91,9 @@ In another terminal run:
 
 `ros2 topic pub /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.0}, angular: {z: 1.8}}"`
 
+
+`ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py`
+
+
+`ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py`
+
