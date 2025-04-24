@@ -35,15 +35,17 @@ RUN git clone https://github.com/tudelft/DroneRepository.git
 WORKDIR /root/drone_ws
 RUN /bin/bash -c "source /opt/ros/humble/setup.bash && colcon build"
 
-# Add helper script
-COPY run_sim.sh /usr/local/bin/run_sim.sh
-RUN chmod +x /usr/local/bin/run_sim.sh
+# Create drone simulator launch script
+RUN echo '#!/bin/bash\n\
+source /opt/ros/humble/setup.bash\n\
+source /root/drone_ws/install/setup.bash\n\
+\n\
+# Start the drone simulator\n\
+ros2 launch delft_drone_sim sim.launch.py' > /usr/local/bin/run_sim.sh \
+&& chmod +x /usr/local/bin/run_sim.sh
 
 # Ensure environment is properly set up
 RUN echo "export DISPLAY=:0" >> ~/.bashrc
 RUN echo "export TURTLEBOT3_MODEL=burger" >> ~/.bashrc
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 RUN echo "source /root/drone_ws/install/setup.bash" >> ~/.bashrc
-
-# Default to bash
-CMD ["bash"]
