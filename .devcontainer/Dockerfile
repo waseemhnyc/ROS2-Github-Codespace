@@ -6,6 +6,9 @@ RUN apt-get update && apt-get install -y \
     ros-humble-gazebo-ros-pkgs \
     ros-humble-rviz2 \
     ros-humble-turtlebot3-gazebo \
+    ros-humble-xacro \
+    ros-humble-joint-state-publisher \
+    ros-humble-joint-state-publisher-gui \
     xvfb fluxbox novnc websockify x11vnc \
     python3-colcon-common-extensions \
     git curl && \
@@ -26,14 +29,14 @@ sleep 3\n\
 bash' > /usr/local/bin/start-vnc.sh \
 && chmod +x /usr/local/bin/start-vnc.sh
 
-# Create workspace and clone the drone repo
+# Create workspace and clone sjtu_drone
 RUN mkdir -p /root/drone_ws/src
 WORKDIR /root/drone_ws/src
-RUN git clone https://github.com/tudelft/DroneRepository.git
+RUN git clone https://github.com/NovoG93/sjtu_drone.git
 
 # Build the workspace
 WORKDIR /root/drone_ws
-RUN /bin/bash -c "source /opt/ros/humble/setup.bash && colcon build"
+RUN /bin/bash -c "source /opt/ros/humble/setup.bash && colcon build --symlink-install"
 
 # Create drone simulator launch script
 RUN echo '#!/bin/bash\n\
@@ -41,10 +44,10 @@ source /opt/ros/humble/setup.bash\n\
 source /root/drone_ws/install/setup.bash\n\
 \n\
 # Start the drone simulator\n\
-ros2 launch delft_drone_sim sim.launch.py' > /usr/local/bin/run_sim.sh \
+ros2 launch sjtu_drone_bringup sjtu_drone_gazebo.launch.py' > /usr/local/bin/run_sim.sh \
 && chmod +x /usr/local/bin/run_sim.sh
 
-# Ensure environment is properly set up
+# Persistent environment setup
 RUN echo "export DISPLAY=:0" >> ~/.bashrc
 RUN echo "export TURTLEBOT3_MODEL=burger" >> ~/.bashrc
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
