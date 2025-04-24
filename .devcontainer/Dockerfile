@@ -52,3 +52,14 @@ RUN echo "export DISPLAY=:0" >> ~/.bashrc
 RUN echo "export TURTLEBOT3_MODEL=burger" >> ~/.bashrc
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 RUN echo "source /root/drone_ws/install/setup.bash" >> ~/.bashrc
+
+# Create script to spawn obstacles in turtlesim
+RUN echo '#!/bin/bash\n\
+source /opt/ros/humble/setup.bash\n\
+\n\
+# Spawn multiple obstacles at different positions\n\
+ros2 service call /spawn turtlesim/srv/Spawn "{x: 3.0, y: 3.0, theta: 0.0, name: \"obstacle1\"}"\n\
+ros2 service call /spawn turtlesim/srv/Spawn "{x: 5.0, y: 5.0, theta: 0.0, name: \"obstacle2\"}"\n\
+ros2 service call /spawn turtlesim/srv/Spawn "{x: 7.0, y: 3.0, theta: 0.0, name: \"obstacle3\"}"\n\
+ros2 service call /spawn turtlesim/srv/Spawn "{x: 2.0, y: 7.0, theta: 0.0, name: \"obstacle4\"}"' > /usr/local/bin/spawn_obstacles.sh \
+&& chmod +x /usr/local/bin/spawn_obstacles.sh
