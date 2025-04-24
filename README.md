@@ -62,6 +62,11 @@ Or try the house world:
 ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py
 ```
 
+### Run sjtu drone simulator
+```bash
+/usr/local/bin/run_sim.sh
+```
+
 ## Useful ROS2 Commands
 
 ### Publish a Twist Command:
